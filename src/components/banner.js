@@ -2,7 +2,7 @@ import React from 'react';
 
 function Banner(props) {
   return (
-    <header className="mw7 center ph3 ph5-ns pv5 bg-yellow black-80 tc">
+    <header className="mw8 center ph3 ph5-ns pv5 bg-yellow black-80 tc">
       <h1 className="fw6 f3 f2-l lh-title mt0 mb3">It's Nice To Be Nice, No?</h1>
       <h2 className="fw2 f4 lh-copy mt0 mb3">Sign in and send a nice tweet to a random person. You do something nice, which is nice, and maybe it'll brighten someone's day! And shucks, that's nice too!</h2>
       <ul className="list pl0 ml0 center">
