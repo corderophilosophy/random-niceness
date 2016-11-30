@@ -1,12 +1,16 @@
 import React from 'react';
+import Tuit from './tuit';
 
-function Result(props) {
-  if (props.selection) {
-    
-  }
+const Result = (props) => {
+  let result = props.tweets.map((e, i) => {
+    if (props.params.id.toString() === i.toString()) {
+      return (<Tuit text={e.text} label={e.label}/>)
+    }
+  });
   return (
-    <div className="mw7 bg-blue">
-      Face
+    <div className="mw8 center ph3 ph5-ns pv5 bg-yellow black-80 tc">
+      {result}
+      <a className="f6 grow link dim br-pill ba bw1 ph3 pv2 mb2 dib red" href="#0">Send this Tweet to Somebody!</a>
     </div>
   );
 }

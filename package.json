@@ -10,6 +10,7 @@
     "react-addons-css-transition-group": "^15.4.1",
     "react-dom": "^15.4.1",
     "react-fontawesome": "^1.4.0",
+    "react-router": "^4.0.0-alpha.6",
     "tachyons": "^4.5.6"
   },
   "scripts": {
