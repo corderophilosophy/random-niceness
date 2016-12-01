@@ -5,6 +5,7 @@ import Main from './components/main';
 import Banner from './components/banner';
 import TweetPicker from './components/tweetPicker';
 import Result from './components/result';
+import base from './base';
 
 class App extends Component {
   constructor() {
