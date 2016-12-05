@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Match } from 'react-router';
+import { connect } from 'react-redux';
 
 import Main from './components/main';
 import Banner from './components/banner';
@@ -9,40 +10,40 @@ import base from './base';
 import Auth from './helpers';
 import {loadState, saveState} from './helpers';
 
-const initialState = loadState() || {
-  loggedIn: false,
-  userId: '',
-  tweets: [
-    {label: "Nice Day", text: "Hi there! I hope you're having a nice day!"},
-    {label: "You're Great!", text: "Always remember, you're great!"},
-    {label: "You're Loved", text: "No matter who you are, somebody loves you!"},
-    {label: "Thanks!", text: "You're a meaningful part of the world! Thanks!"},
-  ],
-};
+import { authenticate, login, logout, tweet } from './actions';
 
 class App extends Component {
-  constructor() {
-    super();
-    this.state = initialState;
+  constructor(props) {
+    super(props);
     this.authenticate = this.authenticate.bind(this);
     this.authHandler = Auth.authHandler;
     this.logout = Auth.logout.bind(this);
   }
-  authenticate() {
-    base.authWithOAuthRedirect('twitter', this.authHandler.bind(this));
+  authenticate(e) {
+    e.preventDefault();
+    if (this.props.dispatch(authenticate())) {
+      this.props.dispatch(login());
+    }
   }
   _save(state) {
-    saveState(state);
-    this.setState({
-      ...state
-    });
+    console.log(state);
+    // saveState(state);
+    // this.setState({
+    //   ...state
+    // })
+  }
+  componentDidMount() {
+    this.unsubscribe = base.onAuth(Auth.authDataCallback)
+  }
+  componentWillUnmount() {
+    this.unsubscribe();
   }
   render() {
     return (
       <BrowserRouter>
         <Main>
           <button onClick={() => this.logout()}>Logout</button>
-          <Match exactly pattern="/" component={() => (<Banner handleClick={() => this.authenticate()}/>)} />
+          <Match exactly pattern="/" component={() => (<Banner handleClick={(e) => this.authenticate(e)}/>)} />
           <Match pattern="/tweetPicker" component={() => (<TweetPicker tweets={this.state.tweets} />)} />
           <Match pattern="/result/:id" component={(props) => (<Result tweets={this.state.tweets} {...props}/>)} />
         </Main>
@@ -50,5 +51,9 @@ class App extends Component {
     );
   }
 }
-
-export default App;
+function mapStateToProps(state) {
+  return {
+    tweets: state.tweetReducer
+  }
+}
+export default connect(mapStateToProps)(App);

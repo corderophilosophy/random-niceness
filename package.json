@@ -3,7 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
-    "react-scripts": "0.7.0"
+    "lodash.throttle": "^4.1.1",
+    "react-scripts": "0.7.0",
+    "redux-logger": "^2.7.4"
   },
   "dependencies": {
     "re-base": "^2.4.0",
@@ -11,7 +13,9 @@
     "react-addons-css-transition-group": "^15.4.1",
     "react-dom": "^15.4.1",
     "react-fontawesome": "^1.4.0",
+    "react-redux": "^4.4.6",
     "react-router": "^4.0.0-alpha.6",
+    "redux": "^3.6.0",
     "tachyons": "^4.5.6"
   },
   "scripts": {

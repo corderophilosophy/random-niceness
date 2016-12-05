@@ -1,21 +1,25 @@
 import base from './base';
 
 const Auth = {
-  authHandler(err) {
+  authDataCallback(user) {
+    if (user) {
+      console.log('user ' + user + ' is logged in', user);
+    } else {
+      console.log('user is logged out');
+    }
+  },
+  authHandler(err, user) {
     if (err) {
       console.error(err);
-      return;
-    } else {
-      console.log(this);
-      this._save({
-        loggedIn: true,
-      });
+      return false;
     }
+    console.log(user);
+    // const userRef = base.database.ref('users/' + user)
   },
   logout() {
     base.unauth();
     console.log('logged out');
-    this._save({loggedIn: false})
+    this.setState({loggedIn: false})
   }
 };
 
