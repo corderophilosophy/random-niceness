@@ -3,7 +3,7 @@ import base from './base';
 const Auth = {
   authDataCallback(user) {
     if (user) {
-      console.log('user ' + user + ' is logged in', user);
+      console.log('user ' + user.uid + ' is logged in');
     } else {
       console.log('user is logged out');
     }
@@ -11,15 +11,12 @@ const Auth = {
   authHandler(err, user) {
     if (err) {
       console.error(err);
-      return false;
+      return;
     }
-    console.log(user);
-    // const userRef = base.database.ref('users/' + user)
   },
   logout() {
     base.unauth();
     console.log('logged out');
-    this.setState({loggedIn: false})
   }
 };
 

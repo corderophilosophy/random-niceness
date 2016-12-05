@@ -2,9 +2,9 @@ import React from 'react';
 import Tuit from './tuit';
 
 const Result = (props) => {
-  let result = props.tweets.map((e, i) => {
-    if (props.params.id.toString() === i.toString()) {
-      return (<Tuit text={e.text} label={e.label}/>)
+  let result = props.tweets.tweets.map((e, i) => {
+    if (props.tweets.selectedTweet.toString() === i.toString()) {
+      return (<Tuit text={e.text} label={e.label} key={i.toString()}/>)
     }
   });
   return (

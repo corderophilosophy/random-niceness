@@ -12,16 +12,18 @@ const authReducer = (state = authState, action) => {
     case 'AUTH':
       console.log('reached auth ' + state, action);
 
-      base.authWithOAuthPopup('twitter', Auth.authHandler());
+      base.authWithOAuthPopup('twitter', Auth.authHandler);
 
-      return { userId: base.auth()};
+      return { userId: base.auth.uid};
     case 'LOGIN':
       return {
         loggedIn: true,
       };
     case 'LOGOUT':
       console.log('reached logout ' + state, action);
-      return state;
+      return {
+        loggedIn: false,
+      };
     default:
       return state;
   }
@@ -29,18 +31,23 @@ const authReducer = (state = authState, action) => {
 
 const tweetState = {
   tweets: [
-    {label: "Nice Day", text: "Hi there! I hope you're having a nice day!"},
-    {label: "You're Great!", text: "Always remember, you're great!"},
-    {label: "You're Loved", text: "No matter who you are, somebody loves you!"},
-    {label: "Thanks!", text: "You're a meaningful part of the world! Thanks!"},
+    {label: "Nice Day", text: "Hi there! I hope you're having a nice day!", hidden: false},
+    {label: "You're Great!", text: "Always remember, you're great!", hidden: false},
+    {label: "You're Loved", text: "No matter who you are, somebody loves you!", hidden: false},
+    {label: "Thanks!", text: "You're a meaningful part of the world! Thanks!", hidden: false},
+    {label: "Tweet Preview", text: "Wishing you well!", hidden: true}
   ],
+  selectedTweet: 4,
 };
 
 const tweetReducer = (state = tweetState, action) => {
   switch(action.type) {
     case 'TWEET':
       console.log('reached tweet ' + state, action);
-      return state;
+      return {
+        ...state,
+        selectedTweet: action.id,
+      };
     default:
       return state;
   }

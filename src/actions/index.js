@@ -20,6 +20,7 @@ export function logout() {
 export function tweet(tweet) {
   return {
     type: 'TWEET',
-    tweet
+    text: tweet.text,
+    id: tweet.id,
   }
 }

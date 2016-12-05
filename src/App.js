@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Match } from 'react-router';
 import { connect } from 'react-redux';
 
 import Main from './components/main';
@@ -21,39 +20,48 @@ class App extends Component {
   }
   authenticate(e) {
     e.preventDefault();
-    if (this.props.dispatch(authenticate())) {
-      this.props.dispatch(login());
-    }
+    this.props.dispatch(authenticate());
   }
   _save(state) {
-    console.log(state);
+    console.log('state is ' + state);
     // saveState(state);
     // this.setState({
     //   ...state
     // })
   }
+  tweetThis(e, idx) {
+    let action = {};
+    action.text = e.target.innerHTML;
+    action.id = idx.toString();
+    this.props.dispatch(tweet(action))
+  }
   componentDidMount() {
-    this.unsubscribe = base.onAuth(Auth.authDataCallback)
+    base.onAuth( (user) => {
+      if (user) {
+        Auth.authHandler(null, { user });
+      }
+    })
+    this.unsubscribe = base.onAuth(Auth.authDataCallback);
   }
   componentWillUnmount() {
     this.unsubscribe();
   }
   render() {
+    console.log(this.props);
     return (
-      <BrowserRouter>
         <Main>
           <button onClick={() => this.logout()}>Logout</button>
-          <Match exactly pattern="/" component={() => (<Banner handleClick={(e) => this.authenticate(e)}/>)} />
-          <Match pattern="/tweetPicker" component={() => (<TweetPicker tweets={this.state.tweets} />)} />
-          <Match pattern="/result/:id" component={(props) => (<Result tweets={this.state.tweets} {...props}/>)} />
+          <Banner handleClick={(e) => this.authenticate(e)}/>
+          <TweetPicker tweets={this.props.tweets} selectTweet={(e, index) => this.tweetThis(e, index)}/>
+          <Result tweets={this.props.tweets} {...this.props}/>
         </Main>
-      </BrowserRouter>
     );
   }
 }
 function mapStateToProps(state) {
   return {
-    tweets: state.tweetReducer
+    tweets: state.tweetReducer,
+    auth: state.authReducer,
   }
 }
 export default connect(mapStateToProps)(App);
