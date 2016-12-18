@@ -1,13 +1,6 @@
 import base from './base';
 
 const Auth = {
-  authDataCallback(user) {
-    if (user) {
-      console.log('user ' + user.uid + ' is logged in');
-    } else {
-      console.log('user is logged out');
-    }
-  },
   authHandler(err, user) {
     if (err) {
       console.error(err);

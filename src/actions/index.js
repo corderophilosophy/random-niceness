@@ -5,9 +5,10 @@ export function authenticate() {
   };
 }
 
-export function login() {
+export function login(user) {
   return {
     type: 'LOGIN',
+    user: user.uid,
   }
 }
 

@@ -35,13 +35,21 @@ class App extends Component {
     action.id = idx.toString();
     this.props.dispatch(tweet(action))
   }
+  authDataCallback(user) {
+    if (user) {
+      console.log('user ' + user.uid + ' is logged in');
+      this.props.dispatch(login(user));
+    } else {
+      console.log('user is logged out');
+    }
+  }
   componentDidMount() {
-    base.onAuth( (user) => {
-      if (user) {
-        Auth.authHandler(null, { user });
-      }
-    })
-    this.unsubscribe = base.onAuth(Auth.authDataCallback);
+    // base.onAuth( (user) => {
+    //   if (user) {
+    //     Auth.authHandler(null, { user });
+    //   }
+    // })
+    this.unsubscribe = base.onAuth(this.authDataCallback.bind(this));
   }
   componentWillUnmount() {
     this.unsubscribe();
@@ -52,8 +60,8 @@ class App extends Component {
         <Main>
           <button onClick={() => this.logout()}>Logout</button>
           <Banner handleClick={(e) => this.authenticate(e)}/>
-          <TweetPicker tweets={this.props.tweets} selectTweet={(e, index) => this.tweetThis(e, index)}/>
-          <Result tweets={this.props.tweets} {...this.props}/>
+          {this.props.auth.loggedIn && (<TweetPicker tweets={this.props.tweets} selectTweet={(e, index) => this.tweetThis(e, index)}/>)}
+          {this.props.tweets.selectedTweet > 4 && (<Result tweets={this.props.tweets} {...this.props}/>)}
         </Main>
     );
   }
